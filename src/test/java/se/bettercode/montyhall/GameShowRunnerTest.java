@@ -1,15 +1,18 @@
 package se.bettercode.montyhall;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class GameShowRunnerTest {
 
   @Test
   public void proofThatChangingBoxIncreasesOddsToWin() {
-    GameShowRunner gameShowRunner = new GameShowRunner();
-    gameShowRunner.runGameShows(1000);
-    assertTrue(gameShowRunner.getWinPercentage() > 60);
+    int numberOfShowsToRun = 1000;
+    GameShowRunner gameShowRunnerWhereContestantChangesBox = new GameShowRunner(true);
+    gameShowRunnerWhereContestantChangesBox.runGameShows(numberOfShowsToRun);
+    GameShowRunner gameShowRunnerWhereContestantDoesntChangeBox = new GameShowRunner(false);
+    gameShowRunnerWhereContestantDoesntChangeBox.runGameShows(numberOfShowsToRun);
+    assertTrue(gameShowRunnerWhereContestantChangesBox.getWinPercentage() > gameShowRunnerWhereContestantDoesntChangeBox.getWinPercentage());
   }
 }

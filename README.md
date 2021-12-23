@@ -1,7 +1,7 @@
 Demonstration of the Monty Hall problem
 =======================================
 
-Contains a fairly readable and maintainable solution to the Monty Hall problem.
+Contains a fairly readable and maintainable solution to the [Monty Hall problem](https://en.wikipedia.org/wiki/Monty_Hall_problem).
 
 Can certainly be written in a much more condense form, but as always, I prefer
 readability and maintainability over short code.
@@ -29,7 +29,13 @@ $ mvn package
 [INFO] ------------------------------------------------------------------------
 
 $ java -jar ./target/monty-hall-1.0-SNAPSHOT.jar
-Summary: Contestant wins in 66.0%
+===============================================================
+Ran game show 1000 times and contestant never changed box.
+Summary: Contestant wins in 34.9%
+===============================================================
+Ran game show 1000 times and contestant changed box every time.
+Summary: Contestant wins in 66.3%
+===============================================================
 ```
 
 ## Reference
