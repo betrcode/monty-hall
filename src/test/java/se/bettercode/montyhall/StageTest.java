@@ -3,6 +3,8 @@ package se.bettercode.montyhall;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +23,7 @@ public class StageTest {
   @Test
   public void onlyOneWinnerBox() {
     final long winningBoxCount = stage.getBoxList().stream()
-        .filter(box -> box.isWinning())
+        .filter(Box::isWinning)
         .count();
     assertThat(winningBoxCount, is(1L));
   }
@@ -31,6 +33,14 @@ public class StageTest {
     assertThat(stage.getBoxList().size(), is(3));
   }
 
+  @Test
+  public void getBoxByNumber() {
+    assertNull(stage.getBoxByNumber(0));
+    assertNotNull(stage.getBoxByNumber(1));
+    assertNotNull(stage.getBoxByNumber(2));
+    assertNotNull(stage.getBoxByNumber(3));
+    assertNull(stage.getBoxByNumber(4));
+  }
   @Test
   public void contestantSelectsBox() {
     stage.contestantSelectsBox(1);
@@ -43,7 +53,7 @@ public class StageTest {
   public void hostOpensBox() {
     stage.hostOpensABox();
     final Box openedBox = stage.getBoxList().stream()
-        .filter(box -> box.isOpenedByHost())
+        .filter(Box::isOpenedByHost)
         .findFirst()
         .get();
     assertThat(openedBox.isOpenedByHost(), is(true));
@@ -56,7 +66,7 @@ public class StageTest {
     stage.hostOpensABox();
     stage.contestantChangesSelectedBox();
     final Box selectedBox = stage.getBoxList().stream()
-        .filter(box -> box.isSelectedByContestant())
+        .filter(Box::isSelectedByContestant)
         .findFirst()
         .get();
     assertThat(selectedBox.isSelectedByContestant(), is(true));

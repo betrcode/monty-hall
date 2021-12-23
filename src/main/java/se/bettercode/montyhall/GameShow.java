@@ -20,7 +20,6 @@ public class GameShow {
     if (contestantShouldChangeBox) {
       stage.contestantChangesSelectedBox();
     }
-    boolean contestantWins = stage.hostOpensWinningBox();
-    return contestantWins;
+    return stage.hostOpensWinningBox();
   }
 }

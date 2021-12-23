@@ -1,28 +1,31 @@
 package se.bettercode.montyhall;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Stage {
 
-  List<Box> boxList = new ArrayList();
+  private static final int NUMBER_OF_BOXES = 3;
+
+  private final Map<Integer, Box> boxes = new HashMap<>();
 
   public Stage() {
     int winningBoxNumber = RandomBoxNumber.generateRandomBoxNumber();
-    IntStream.rangeClosed(1, 3).forEach(boxNumber ->
-        boxList.add(Box.builder().boxNumber(boxNumber).winning(boxNumber == winningBoxNumber).build())
+    IntStream.rangeClosed(1, NUMBER_OF_BOXES).forEach(boxNumber -> {
+        Box box = Box.builder()
+              .boxNumber(boxNumber)
+              .winning(boxNumber == winningBoxNumber)
+              .build();
+        boxes.put(boxNumber, box);
+      }
     );
   }
 
-
   public Box getBoxByNumber(int number) {
-    return boxList.stream()
-        .filter(box -> box.getBoxNumber() == number)
-        .findFirst()
-        .get();
+    return boxes.get(number);
   }
 
   public void contestantSelectsBox(int number) {
@@ -31,11 +34,11 @@ public class Stage {
   }
 
   private void resetAllBoxesToNotSelectedByContestant() {
-    boxList.forEach(box -> box.setSelectedByContestant(false));
+    boxes.values().forEach(box -> box.setSelectedByContestant(false));
   }
 
   public List<Box> getBoxList() {
-    return boxList;
+    return boxes.values().stream().toList();
   }
 
   /**
@@ -43,10 +46,10 @@ public class Stage {
    * If one of those boxes is the winning box, open the other one.
    */
   public void hostOpensABox() {
-    List<Box> possibleBoxes = boxList.stream()
-        .filter(box -> !box.isSelectedByContestant())
-        .filter(box -> !box.isWinning())
-        .collect(Collectors.toList());
+    List<Box> possibleBoxes = boxes.values().stream()
+            .filter(box -> !box.isSelectedByContestant())
+            .filter(box -> !box.isWinning())
+            .toList();
 
     if (possibleBoxes.size() == 1) {
       possibleBoxes.get(0).setOpenedByHost(true);
@@ -58,20 +61,20 @@ public class Stage {
   }
 
   public void contestantChangesSelectedBox() {
-    final Box boxToSelect = boxList.stream()
+    final Box boxToSelect = boxes.values().stream()
         .filter(box -> !box.isOpenedByHost())
         .filter(box -> !box.isSelectedByContestant())
         .findFirst()
-        .get();
+        .orElseThrow();
     resetAllBoxesToNotSelectedByContestant();
     boxToSelect.setSelectedByContestant(true);
   }
 
   public boolean hostOpensWinningBox() {
-    final Box winningBox = boxList.stream()
-        .filter(box -> box.isWinning())
+    final Box winningBox = boxes.values().stream()
+        .filter(Box::isWinning)
         .findFirst()
-        .get();
+        .orElseThrow();
     winningBox.setOpenedByHost(true);
     return winningBox.isSelectedByContestant();
   }

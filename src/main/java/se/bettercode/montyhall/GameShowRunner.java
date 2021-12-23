@@ -5,8 +5,7 @@ import java.util.stream.IntStream;
 public class GameShowRunner {
 
   private double winCount = 0;
-  private double loseCount = 0;
-  private double totalCount;
+  private double totalCount = 0;
 
   public void runGameShows(int count) {
     IntStream.rangeClosed(1, count).forEach(this::run);
@@ -17,8 +16,6 @@ public class GameShowRunner {
     totalCount++;
     if (contestantWins) {
       winCount++;
-    } else {
-      loseCount++;
     }
   }
 

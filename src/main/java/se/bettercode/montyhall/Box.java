@@ -10,6 +10,6 @@ import lombok.Data;
 public class Box {
   private int boxNumber;
   private boolean winning;
-  private boolean selectedByContestant = false;
-  private boolean openedByHost = false;
+  private boolean selectedByContestant;
+  private boolean openedByHost;
 }
